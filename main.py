@@ -1,12 +1,15 @@
 import joblib  # type: ignore[reportMissingImports]
 import pandas as pd  # type: ignore[reportMissingImports]
 from fastapi import FastAPI  # type: ignore[reportMissingImports]
+from fastapi.responses import FileResponse  # type: ignore[reportMissingImports]
+from fastapi.staticfiles import StaticFiles  # type: ignore[reportMissingImports]
 from pydantic import BaseModel, Field  # type: ignore[reportMissingImports]
 from pathlib import Path
 from typing import Literal
 from fastapi.middleware.cors import CORSMiddleware  # type: ignore[reportMissingImports]
 
 model = joblib.load(Path(__file__).with_name('Mental_Health_Model.pkl'))
+frontend_dir = Path(__file__).parent
 top_countries = ['Other','India','USA','Canada','Australia','UK','Germany','Mexico','Turkey','France']
 
 app = FastAPI()
@@ -47,7 +50,7 @@ class PredictionResponse(BaseModel):
 
 @app.get('/')
 def greet():
-    return {'Welcome to Tapto linkedin'}
+    return FileResponse(frontend_dir / 'index.html')
 
 
 @app.post('/predict', response_model=PredictionResponse) 
@@ -73,3 +76,6 @@ def predict(data: StudentData):
 
    prediction = model.predict(input_row)[0]
    return PredictionResponse(predicted_mental_health_score=round(float(prediction),2))
+
+
+app.mount('/', StaticFiles(directory=frontend_dir), name='frontend')

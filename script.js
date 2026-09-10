@@ -4,7 +4,7 @@
   const isLocal = ["localhost", "127.0.0.1"].includes(window.location.hostname);
   const API_BASE = isLocal
     ? "http://127.0.0.1:2200"
-    : "https://mansik-santulan-score.onrender.com";
+    : "https://mental-health-score-q3pi.onrender.com";
 
   const form = document.getElementById("predict-form");
   const submitBtn = document.getElementById("submit-btn");
