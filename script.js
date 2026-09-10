@@ -20,7 +20,6 @@
   const scoreBandEl = document.getElementById("score-band");
   const scoreContextEl = document.getElementById("score-context");
   const gaugeFill = document.getElementById("gauge-fill");
-  const errorLabelEl = document.getElementById("error-label");
   const errorCopyEl = document.getElementById("error-copy");
 
   const GAUGE_ARC_LENGTH = 314; // approx pi * r(100)
@@ -204,8 +203,7 @@
   }
 
   function renderError(label, copy) {
-    errorLabelEl.textContent = label;
-    errorCopyEl.textContent = copy;
+    errorCopyEl.textContent = `${label}: ${copy}`;
     showState("error");
   }
 
